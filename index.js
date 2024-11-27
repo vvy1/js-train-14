@@ -49,10 +49,12 @@ function setDateDetails(date, isoString) {
   //  якщо ні виводимо повідомлення "Помилка: недійсний ISO рядок"
   const parceDate = new Date(isoString);
   if (isNaN(parceDate.getTime())) {
-    return;
+    return "Помилка: недійсний ISO рядок";
   }
   // Встановлюємо дату з ISO рядка в об'єкт Date.
+  date.setTime(parceDate.getTime());
   // Повертаємо об'єкт Date з встановленою датою.
+  return date;
 }
 
 console.log("Завдання: 2 ==============================");
@@ -72,7 +74,11 @@ function dateToUTC(date) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Повертаємо рядок з датою в UTC форматі.
+  return date.toUTCString();
 }
 
 console.log("Завдання: 3 ==============================");
@@ -95,8 +101,13 @@ function setSpecificTime(date, hours, minutes, seconds, milliseconds) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Встановлюємо конкретний час в об'єкті Date за допомогою setHours.
+  date.setHours(hours, minutes, seconds, milliseconds);
   // Повертаємо об'єкт Date з встановленим часом.
+  return date;
 }
 
 console.log("Завдання: 4 ==============================");
@@ -122,15 +133,33 @@ console.log(
  */
 function nextNewYear() {
   // Створюєму змінну в яку записуємо поточну дату
+  const now = new Date();
   // Визначення поточного року.
+  const currentYear = now.getFullYear();
   // Визначення дати наступного Нового року. Для цього створюємо новий об`єкт Date в якому збільшуємо поточний рік на 1, встановлюємо місяць на 0 а дату на 1
+  const nextNewYearDate = new Date(currentYear + 1, 0, 1);
   // Визначаємо кількість мілісекунд до наступного Нового року в змінну diff.
+  const diff = nextNewYearDate - now;
   // Розраховуємо кількість повних днів, годин, хвилин і секунд.
   // Дні:diff / (1000 * 60 * 60 * 24)
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   // Години:(diff / (1000 * 60 * 60)) % 24
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   // Хвилини: (diff / (1000 * 60)) % 60;
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
   // Секунди:(diff / 1000) % 60;
+  const seconds = Math.floor((diff / 1000) % 60);
   // Мілісекунди:  diff % 1000;
+  const milliseconds = diff % 1000;
+
+  // Повернення об'єкта з результатом
+  return {
+    days, // Кількість днів до Нового року.
+    hours, // Кількість годин до Нового року, не включаючи повні дні.
+    minutes, // Кількість хвилин до Нового року, не включаючи повні години.
+    seconds, // Кількість секунд до Нового року, не включаючи повні хвилини.
+    milliseconds, // Кількість мілісекунд до Нового року, не включаючи повні секунди.
+  };
 }
 
 console.log("Завдання:5  ==============================");
@@ -152,9 +181,18 @@ console.log(nextNewYear());
  */
 function isLeapYear(year) {
   // Перевірка, чи є вхідне значення числом якщо ні повертаємо рядок .
+  if (typeof year !== "number") {
+    return year.toString();
+  }
   // Перевірка, чи є рік високосним.
   // Високосним вважається рік, який ділиться націло на 4
+  const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
   // Повертаємо об'єкт з роком та інформацією про те, чи є він високосним.
+  return {
+    year,
+    isLeap,
+  };
 }
 console.log("Завдання: 6 ==============================");
 
