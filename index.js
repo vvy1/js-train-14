@@ -217,13 +217,28 @@ function addDays(date, days) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Перевірка, чи є кількість днів числом.
   // Якщо days не є числом, функція поверне рядок
   // "Помилка: кількість днів має бути числом" та повертає undefined.
+  if (typeof days !== "number") {
+    return "Помилка: кількість днів має бути числом";
+  }
   // Збереження початкової дати для виведення в форматі ISO.
+  const inputDate = date.toISOString();
   // Додавання заданої кількості днів до дати.
+  const resultDateObject = new Date(date);
+  resultDateObject.setDate(resultDateObject.getDate() + days);
   // Збереження результуючої дати для виведення в форматі ISO.
+  const resultDate = resultDateObject.toISOString();
   // Повертаємо об'єкт з початковою датою, кількістю доданих днів та результуючою датою.
+  return {
+    inputDate: inputDate,
+    addedDays: days,
+    resultDate: resultDate,
+  };
 }
 
 console.log("Завдання: 7 ==============================");
@@ -262,10 +277,20 @@ function getDayOfWeek(date) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Збереження початкової дати для виведення  в форматі ISO.
+  const inputDate = date.toISOString();
   // Отримання дня тижня як числа (0 - неділя, 1 - понеділок, ..., 6 - субота).
+  const indexDate = date.getDay();
   // Отримання назви дня тижня з масиву daysOfWeek за індексом.
+  const dayOfWeek = daysOfWeek[indexDate];
   // Повертаємо об'єкт з початковою датою та днем тижня.
+  return {
+    inputDate,
+    dayOfWeek,
+  };
 }
 
 console.log("Завдання: 8 ==============================");
@@ -289,13 +314,26 @@ function getDaysInMonth(date) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Збереження початкової дати для виведення  в форматі ISO.
+  const inputDate = date.toISOString();
   // Отримання поточного місяця.
   // Отримання поточного року.
+  const year = date.getFullYear();
+  const month = date.getMonth();
   // Створення об'єкта Date для першого дня наступного місяця.
+  const nextMonth = new Date(year, month + 1, 1);
   // Віднімання одного дня від наступного місяця, щоб отримати останній день поточного місяця.
+  const nextDayOfMonth = new Date(nextMonth - 1);
   // Отримання числа останнього дня поточного місяця - це кількість днів у місяці.
+  const daysInMonth = nextDayOfMonth.getDate();
   // Повертаємо об'єкт з початковою датою та кількістю днів у місяці.
+  return {
+    inputDate,
+    daysInMonth,
+  };
 }
 console.log("Завдання: 9 ==============================");
 
