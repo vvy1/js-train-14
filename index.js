@@ -356,12 +356,26 @@ function getFormattedTime(date) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Збереження початкової дати для виведення  в форматі ISO.
+  const inputDate = date.toISOString();
   // Отримання годин.
+  const hours = date.getUTCHours();
   // Отримання хвилин.
+  const minutes = date.getUTCMinutes();
   // Отримання секунд.
+  const seconds = date.getUTCSeconds();
   // Форматування часу у вигляді 'гг:хх:сс', ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   // Повертаємо об'єкт з початковою датою та отформатованим часом.
+  return {
+    inputDate, // Початкова дата в форматі 'гггг-мм-дд'.
+    formattedTime, // Час в форматі 'гг:хх:сс'.
+  };
 }
 console.log("Завдання: 10 ==============================");
 
@@ -384,12 +398,33 @@ function getAge(birthDate) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є birthDate.getTime по типу функція .
   // Якщо birthDate не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof birthDate.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Отримання поточної дати.
+  const currentDate = new Date();
   // Вираховування різницю років між поточною датою та датою народження.
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
   // Перевірка, чи поточна дата ще не пройшла день народження, тобто поточний місяць має бути менше, а якщо дорівнює дата має бути менше.
   // Якщо день народження ще не пройшов, вік потрібно зменшити на 1.
+  const currentMonth = currentDate.getMonth();
+  const birthMonth = birthDate.getMonth();
+  const currentDay = currentDate.getDate();
+  const birthDay = birthDate.getDate();
+
+  if (
+    currentMonth < birthMonth ||
+    (currentMonth === birthMonth && currentDay < birthDay)
+  ) {
+    age--;
+  }
   // Збереження дати народження для виведення в форматі ISO.
+  const birthDateISO = birthDate.toISOString();
   // Повертаємо об'єкт з датою народження та обчисленим віком.
+  return {
+    birthDate: birthDateISO,
+    age: age,
+  };
 }
 console.log("Завдання: 11 ==============================");
 
