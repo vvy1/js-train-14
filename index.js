@@ -449,9 +449,33 @@ function compareDates(date1, date2) {
   // Перевірка, чи є вхідні значення об'єктами Date.
   // Якщо date1 або date2 не є об'єктами Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (
+    !(date1 instanceof Date) ||
+    isNaN(date1.getTime()) ||
+    !(date2 instanceof Date) ||
+    isNaN(date2.getTime())
+  ) {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Порівняння дат і отримання результату порівняння: -1, якщо date1 < date2, 0, якщо date1 === date2, 1, якщо date1 > date2.
+  let comparison;
+  if (date1.getTime() < date2.getTime()) {
+    comparison = -1;
+  } else if (date1.getTime() > date2.getTime) {
+    comparison = 1;
+  } else {
+    comparison = 0;
+  }
+
   // Збереження дат для виведення  в форматі ISO.
+  const date1ISO = date1.toISOString();
+  const date2ISO = date2.toISOString();
   // Повертаємо об'єкт з порівнюваними датами та результатом порівняння.
+  return {
+    date1: date1ISO,
+    date2: date2ISO,
+    comparison: comparison,
+  };
 }
 console.log("Завдання: 12 ==============================");
 
@@ -481,11 +505,30 @@ function getDaysDifference(startDate, endDate) {
   // Перевірка, чи є вхідні значення об'єктами Date.
   // Якщо startDate або endDate не є об'єктами Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  if (
+    !(startDate instanceof Date) ||
+    isNaN(startDate.getTime()) ||
+    !(endDate instanceof Date) ||
+    isNaN(endDate.getTime())
+  ) {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
   // Отримання часу в мілісекундах для початкової та кінцевої дати.
+  const startTime = startDate.getTime();
+  const endTime = endDate.getTime();
   // Різниця в мілісекундах між двома датами.
+  const timeDifference = endTime - startTime;
   // Перетворення різниці в мілісекундах у дні поділивши мілісекунди на (1000 * 60 * 60 * 24).
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   // Збереження дат для виведення в форматі ISO.
+  const startDateISO = startDate.toISOString();
+  const endDateISO = endDate.toISOString();
   // Повертаємо об'єкт з початковою та кінцевою датами та різницею в днях.
+  return {
+    startDate: startDateISO,
+    endDate: endDateISO,
+    daysDifference: daysDifference,
+  };
 }
 console.log("Завдання: 13 ==============================");
 
